@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/")
-    public ResponseEntity create(@RequestBody UserModel userModel) {
+    public ResponseEntity<Object> create(@RequestBody UserModel userModel) {
 
         var userCreated = userService.create(userModel);
 
