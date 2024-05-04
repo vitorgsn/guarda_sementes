@@ -1,6 +1,9 @@
 package br.com.ifs.edu.guarda_sementes.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
@@ -9,19 +12,21 @@ import br.com.ifs.edu.guarda_sementes.repositories.IUserRepository;
 @Service
 public class UserService {
 
-    @Autowired
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
-    public Object create(UserModel userModel) {
+    public UserService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-        var oldUser = this.userRepository.findByEmail(userModel.getEmail());
+    public List<UserModel> list() {
+        return this.userRepository.findAll();
+    }
 
-        if (oldUser != null) {
-            return null;
-        }
+    public Optional<UserModel> findById(UUID id) {
+        return userRepository.findById(id);
+    }
 
-        var userCreated = this.userRepository.save(userModel);
-
-        return userCreated;
+    public UserModel create(UserModel userModel) {
+        return this.userRepository.save(userModel);
     }
 }
