@@ -1,11 +1,12 @@
 package br.com.ifs.edu.guarda_sementes.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import br.com.ifs.edu.guarda_sementes.exceptions.RecordAlreadyExistsException;
+import br.com.ifs.edu.guarda_sementes.exceptions.RecordNotFoundException;
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
 import br.com.ifs.edu.guarda_sementes.repositories.IUserRepository;
 
@@ -22,11 +23,17 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public Optional<UserModel> findById(UUID id) {
-        return userRepository.findById(id);
+    public UserModel findById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("User not found."));
     }
 
     public UserModel create(UserModel userModel) {
+
+        var oldUser = userRepository.findByEmail(userModel.getEmail());
+        if (oldUser != null) {
+            throw new RecordAlreadyExistsException("Email address already exists.");
+        }
+
         return this.userRepository.save(userModel);
     }
 }
