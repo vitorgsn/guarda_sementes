@@ -24,16 +24,34 @@ public class UserService {
     }
 
     public UserModel findById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("User not found."));
+        return this.userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("User not found."));
     }
 
     public UserModel create(UserModel userModel) {
 
-        var oldUser = userRepository.findByEmail(userModel.getEmail());
+        var oldUser = this.userRepository.findByEmail(userModel.getEmail());
         if (oldUser != null) {
             throw new RecordAlreadyExistsException("Email address already exists.");
         }
 
         return this.userRepository.save(userModel);
+    }
+
+    public UserModel update(UUID id, UserModel userModel) {
+
+        var oldUser = this.userRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("User not found."));
+
+        oldUser.setName(userModel.getName());
+        oldUser.setPassword(userModel.getPassword());
+
+        return this.userRepository.save(oldUser);
+    }
+
+    public void delete(UUID id) {
+        var oldUser = this.userRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("User not found."));
+
+        this.userRepository.delete(oldUser);
     }
 }
