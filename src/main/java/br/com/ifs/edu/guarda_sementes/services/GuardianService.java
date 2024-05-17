@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import br.com.ifs.edu.guarda_sementes.dtos.GuardianDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.guardian.CreateGuardianDTO;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordAlreadyExistsException;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordNotFoundException;
 import br.com.ifs.edu.guarda_sementes.models.GuardianModel;
@@ -27,7 +27,7 @@ public class GuardianService {
         return this.guardianRepository.findAll();
     }
 
-    public GuardianModel create(GuardianDTO guardianDTO) {
+    public GuardianModel create(CreateGuardianDTO guardianDTO) {
 
         var oldGuardian = this.guardianRepository.findByUserId(guardianDTO.getUserId());
         if (oldGuardian != null) {

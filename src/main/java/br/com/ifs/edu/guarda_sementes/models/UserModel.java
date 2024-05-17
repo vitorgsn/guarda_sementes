@@ -11,7 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -23,16 +24,13 @@ public class UserModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank
     @NotNull
     private String name;
 
     @NotNull
-    @NotBlank
     @Column(unique = true)
     private String email;
 
-    @NotBlank
     @NotNull
     private String password;
 
@@ -43,4 +41,8 @@ public class UserModel {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updateAt;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private AddressModel address;
 }

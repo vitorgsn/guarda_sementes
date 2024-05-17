@@ -2,7 +2,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifs.edu.guarda_sementes.dtos.GuardianDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.guardian.CreateGuardianDTO;
 import br.com.ifs.edu.guarda_sementes.models.GuardianModel;
 import br.com.ifs.edu.guarda_sementes.services.GuardianService;
 import jakarta.validation.Valid;
@@ -40,7 +40,7 @@ public class GuardianController {
 
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public GuardianModel create(@RequestBody @Valid GuardianDTO guardianDTO) {
+    public GuardianModel create(@RequestBody @Valid CreateGuardianDTO guardianDTO) {
         return this.guardianService.create(guardianDTO);
     }
 
