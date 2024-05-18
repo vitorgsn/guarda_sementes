@@ -1,6 +1,7 @@
 package br.com.ifs.edu.guarda_sementes.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.ifs.edu.guarda_sementes.dtos.cities.CreateCityDTO;
-import br.com.ifs.edu.guarda_sementes.models.CityModel;
+import br.com.ifs.edu.guarda_sementes.dtos.city.CreateCityDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.city.ResponseCityDTO;
 import br.com.ifs.edu.guarda_sementes.services.CityService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +29,14 @@ public class CityController {
 
     @GetMapping("/")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public List<CityModel> list() {
-        return this.cityService.list();
+    public List<ResponseCityDTO> list() {
+        return this.cityService.list().stream().map(ResponseCityDTO::new).collect(Collectors.toList());
     }
 
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CityModel create(@RequestBody CreateCityDTO cityDTO) {
-        return this.cityService.create(cityDTO);
+    public ResponseCityDTO create(@RequestBody CreateCityDTO cityDTO) {
+        return new ResponseCityDTO(this.cityService.create(cityDTO));
     }
 
 }

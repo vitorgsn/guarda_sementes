@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.com.ifs.edu.guarda_sementes.dtos.cities.CreateCityDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.city.CreateCityDTO;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordAlreadyExistsException;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordNotFoundException;
 import br.com.ifs.edu.guarda_sementes.models.CityModel;
@@ -37,10 +37,7 @@ public class CityService {
         var oldState = this.stateRepository.findById(cityDTO.getStateId())
                 .orElseThrow(() -> new RecordNotFoundException("State not found."));
 
-        CityModel city = new CityModel();
-
-        city.setName(cityDTO.getName());
-        city.setState(oldState);
+        CityModel city = new CityModel(cityDTO.getName(), oldState);
 
         return this.cityRepository.save(city);
     }

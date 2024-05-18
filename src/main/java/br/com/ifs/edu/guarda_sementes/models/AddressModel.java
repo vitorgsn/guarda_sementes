@@ -1,5 +1,7 @@
 package br.com.ifs.edu.guarda_sementes.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,8 +36,10 @@ public class AddressModel {
 
     @ManyToOne
     @JoinColumn(name = "city_id")
+    @JsonManagedReference
     private CityModel city;
 
     @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private UserModel user;
 }

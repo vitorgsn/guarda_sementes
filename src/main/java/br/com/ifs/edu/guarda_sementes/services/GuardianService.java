@@ -37,11 +37,7 @@ public class GuardianService {
         var oldUser = this.userRepository.findById(guardianDTO.getUserId())
                 .orElseThrow(() -> new RecordNotFoundException("User not found."));
 
-        GuardianModel guardian = new GuardianModel();
-
-        guardian.setUser(oldUser);
-
-        return this.guardianRepository.save(guardian);
+        return this.guardianRepository.save(new GuardianModel(oldUser));
     }
 
     public GuardianModel findByUserId(UUID userId) {

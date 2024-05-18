@@ -22,4 +22,9 @@ public class GuardianModel {
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", unique = true, nullable = false, foreignKey = @ForeignKey(name = "fk_guardian_user", foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE"))
     private UserModel user;
+
+    public GuardianModel(UserModel userModel) {
+        this.user = userModel;
+    }
+
 }

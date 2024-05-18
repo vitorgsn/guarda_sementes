@@ -1,6 +1,6 @@
 package br.com.ifs.edu.guarda_sementes.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +24,15 @@ public class CityModel {
 
     @ManyToOne
     @JoinColumn(name = "state_id")
-    @JsonManagedReference
+    @JsonBackReference
     private StateModel state;
+
+    public CityModel() {
+    }
+
+    public CityModel(String name, StateModel stateModel) {
+        this.name = name;
+        this.state = stateModel;
+    }
+
 }

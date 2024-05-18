@@ -2,7 +2,7 @@ package br.com.ifs.edu.guarda_sementes.models;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -26,7 +26,7 @@ public class StateModel {
     private String name;
 
     @OneToMany(mappedBy = "state", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<CityModel> cities;
 
 }
