@@ -29,4 +29,12 @@ public class StateModel {
     @JsonManagedReference
     private List<CityModel> cities;
 
+    public StateModel() {
+
+    }
+
+    public StateModel(String name) {
+        this.name = name;
+    }
+
 }

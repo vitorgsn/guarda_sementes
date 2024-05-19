@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ifs.edu.guarda_sementes.dtos.guardian.CreateGuardianDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.guardian.ResponseGuardianDTO;
 import br.com.ifs.edu.guarda_sementes.models.GuardianModel;
 import br.com.ifs.edu.guarda_sementes.services.GuardianService;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +36,8 @@ public class GuardianController {
 
     @GetMapping("/")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<GuardianModel> list() {
-        return this.guardianService.list();
+    public List<ResponseGuardianDTO> list() {
+        return this.guardianService.list().stream().map(ResponseGuardianDTO::new).collect(Collectors.toList());
     }
 
     @PostMapping("/")
@@ -46,7 +48,7 @@ public class GuardianController {
 
     @GetMapping("/{userId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public GuardianModel findByUserId(@PathVariable @NotNull UUID userId) {
-        return this.guardianService.findByUserId(userId);
+    public ResponseGuardianDTO findByUserId(@PathVariable @NotNull UUID userId) {
+        return new ResponseGuardianDTO(this.guardianService.findByUserId(userId));
     }
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import br.com.ifs.edu.guarda_sementes.dtos.user.CreateUserDTO;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordAlreadyExistsException;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordNotFoundException;
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
@@ -27,14 +28,14 @@ public class UserService {
         return this.userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("User not found."));
     }
 
-    public UserModel create(UserModel userModel) {
+    public UserModel create(CreateUserDTO userDTO) {
 
-        var oldUser = this.userRepository.findByEmail(userModel.getEmail());
+        var oldUser = this.userRepository.findByEmail(userDTO.getEmail());
         if (oldUser != null) {
             throw new RecordAlreadyExistsException("Email address already exists.");
         }
 
-        return this.userRepository.save(userModel);
+        return this.userRepository.save(new UserModel(userDTO.getName(), userDTO.getEmail(), userDTO.getPassword()));
     }
 
     public UserModel update(UUID id, UserModel userModel) {
@@ -54,4 +55,5 @@ public class UserService {
 
         this.userRepository.delete(oldUser);
     }
+
 }

@@ -2,6 +2,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ifs.edu.guarda_sementes.dtos.user.CreateUserDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.user.ResponseUserDTO;
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
 import br.com.ifs.edu.guarda_sementes.services.UserService;
 import jakarta.validation.Valid;
@@ -34,20 +37,20 @@ public class UserController {
 
     @GetMapping("/")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<UserModel> list() {
-        return this.userService.list();
+    public List<ResponseUserDTO> list() {
+        return this.userService.list().stream().map(ResponseUserDTO::new).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public UserModel findById(@PathVariable @NotNull UUID id) {
-        return this.userService.findById(id);
+    public ResponseUserDTO findById(@PathVariable @NotNull UUID id) {
+        return new ResponseUserDTO(this.userService.findById(id));
     }
 
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public UserModel create(@RequestBody @Valid UserModel userModel) {
-        return this.userService.create(userModel);
+    public ResponseUserDTO create(@RequestBody @Valid CreateUserDTO userDTO) {
+        return new ResponseUserDTO(this.userService.create(userDTO));
     }
 
     @PutMapping("/{id}")

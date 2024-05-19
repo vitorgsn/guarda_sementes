@@ -1,10 +1,9 @@
 package br.com.ifs.edu.guarda_sementes.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,7 +38,21 @@ public class AddressModel {
     @JsonManagedReference
     private CityModel city;
 
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToOne()
+    @JoinColumn(name = "address_id")
+    @JsonBackReference
     private UserModel user;
+
+    public AddressModel() {
+    }
+
+    public AddressModel(String district, String street, String number, String reference, CityModel city,
+            UserModel user) {
+        this.district = district;
+        this.street = street;
+        this.number = number;
+        this.reference = reference;
+        this.city = city;
+        this.user = user;
+    }
 }
