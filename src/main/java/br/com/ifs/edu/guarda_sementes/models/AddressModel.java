@@ -39,7 +39,7 @@ public class AddressModel {
     private CityModel city;
 
     @OneToOne()
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "user_id")
     @JsonBackReference
     private UserModel user;
 

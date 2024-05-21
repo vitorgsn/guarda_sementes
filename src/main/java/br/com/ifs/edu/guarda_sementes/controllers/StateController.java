@@ -28,7 +28,7 @@ public class StateController {
     }
 
     @GetMapping("/")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @ResponseStatus(code = HttpStatus.OK)
     public List<ResponseStateDTO> list() {
         return this.stateService.list().stream().map(ResponseStateDTO::new).collect(Collectors.toList());
     }

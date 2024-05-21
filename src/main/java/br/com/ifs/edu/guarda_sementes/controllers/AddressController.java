@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.ifs.edu.guarda_sementes.dtos.address.CreateAddressDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.address.ResponseAddressDTO;
 import br.com.ifs.edu.guarda_sementes.services.AddressService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @Validated
@@ -29,14 +30,14 @@ public class AddressController {
     }
 
     @GetMapping("/user/{userId}")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @ResponseStatus(code = HttpStatus.OK)
     public ResponseAddressDTO findByUserId(@PathVariable @NotNull UUID userId) {
         return new ResponseAddressDTO(this.addressService.findByUserId(userId));
     }
 
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseAddressDTO create(@RequestBody CreateAddressDTO addressDTO) {
+    public ResponseAddressDTO create(@RequestBody @Valid CreateAddressDTO addressDTO) {
         return new ResponseAddressDTO(this.addressService.create(addressDTO));
     }
 

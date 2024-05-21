@@ -28,7 +28,7 @@ public class CityController {
     }
 
     @GetMapping("/")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @ResponseStatus(code = HttpStatus.OK)
     public List<ResponseCityDTO> list() {
         return this.cityService.list().stream().map(ResponseCityDTO::new).collect(Collectors.toList());
     }
