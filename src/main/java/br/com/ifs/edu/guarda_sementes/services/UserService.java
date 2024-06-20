@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.ifs.edu.guarda_sementes.dtos.user.CreateUserDTO;
@@ -35,7 +36,9 @@ public class UserService {
             throw new RecordAlreadyExistsException("Email address already exists.");
         }
 
-        return this.userRepository.save(new UserModel(userDTO.getName(), userDTO.getEmail(), userDTO.getPassword()));
+        String encryptedPassword = new BCryptPasswordEncoder().encode(userDTO.getPassword());
+
+        return this.userRepository.save(new UserModel(userDTO.getName(), userDTO.getEmail(), encryptedPassword, userDTO.getRole()));
     }
 
     public UserModel update(UUID id, UserModel userModel) {

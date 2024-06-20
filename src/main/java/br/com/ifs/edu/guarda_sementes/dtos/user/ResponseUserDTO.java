@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import br.com.ifs.edu.guarda_sementes.dtos.address.ResponseAddressDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.contact.ResponseContactDTO;
+import br.com.ifs.edu.guarda_sementes.enums.UserRole;
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class ResponseUserDTO {
     private UUID id;
     private String name;
     private String email;
+    private UserRole role;
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
     private ResponseAddressDTO address;
@@ -26,6 +28,7 @@ public class ResponseUserDTO {
         this.id = userModel.getId();
         this.name = userModel.getName();
         this.email = userModel.getEmail();
+        this.role = userModel.getRole();
         this.createdAt = userModel.getCreatedAt();
         this.updateAt = userModel.getUpdateAt();
 
@@ -35,7 +38,11 @@ public class ResponseUserDTO {
             this.address = new ResponseAddressDTO(userModel.getAddress());
         }
 
-        this.contacts = userModel.getContacts().stream().map(ResponseContactDTO::new).collect(Collectors.toList());
+        if (userModel.getContacts() == null) {
+            this.contacts = null;
+        } else {
+            this.contacts = userModel.getContacts().stream().map(ResponseContactDTO::new).collect(Collectors.toList());
+        }
     }
 
 }
