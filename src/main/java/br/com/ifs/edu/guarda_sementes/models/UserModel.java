@@ -60,6 +60,10 @@ public class UserModel implements UserDetails {
     @JsonManagedReference
     private List<ContactModel> contacts;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<StockModel> stocks;
+
     @NotNull
     private UserRole role;
 
