@@ -1,6 +1,7 @@
 package br.com.ifs.edu.guarda_sementes.configs.security;
 
 import br.com.ifs.edu.guarda_sementes.repositories.IUserRepository;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,9 +28,15 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
+
         if(token != null) {
+
             var email = tokenService.validateToken(token);
             UserDetails user = userRepository.findByEmail(email);
+
+            if(user == null) {
+                throw new JWTVerificationException("Token invalid.");
+            }
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

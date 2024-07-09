@@ -47,12 +47,6 @@ public class UserController {
         return new ResponseUserDTO(this.userService.findById(id));
     }
 
-    @PostMapping("/")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseUserDTO create(@RequestBody @Valid CreateUserDTO userDTO) {
-        return new ResponseUserDTO(this.userService.create(userDTO));
-    }
-
     @PutMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public UserModel update(@PathVariable UUID id, @RequestBody UserModel userModel) {
