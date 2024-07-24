@@ -33,4 +33,8 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(JWTVerificationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleJWTVerificationException(JWTVerificationException ex) {return ex.getMessage();}
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handleDefaultException(Exception ex) {return ex.getMessage();}
 }

@@ -17,6 +17,6 @@ public class ResponseSeedDTO {
         this.name = seedModel.getName();
         this.amount = seedModel.getAmount();
         this.description = seedModel.getDescription();
-        this.stock = seedModel.getStock().getName();
+        this.stock = seedModel.getStock().getCategory().getCategory();
     }
 }

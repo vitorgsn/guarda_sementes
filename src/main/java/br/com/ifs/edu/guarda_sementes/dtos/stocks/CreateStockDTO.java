@@ -1,5 +1,6 @@
 package br.com.ifs.edu.guarda_sementes.dtos.stocks;
 
+import br.com.ifs.edu.guarda_sementes.enums.StockCategory;
 import lombok.Data;
 
 import java.util.UUID;
@@ -7,14 +8,14 @@ import java.util.UUID;
 @Data
 public class CreateStockDTO {
 
-    private String name;
+    private StockCategory category;
     private UUID userId;
 
     public CreateStockDTO() {
     }
 
-    public CreateStockDTO(String name, UUID userId) {
-        this.name = name;
+    public CreateStockDTO(StockCategory category, UUID userId) {
+        this.category = category;
         this.userId = userId;
     }
 }

@@ -1,7 +1,7 @@
 package br.com.ifs.edu.guarda_sementes.models;
 
+import br.com.ifs.edu.guarda_sementes.enums.StockCategory;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +18,7 @@ public class StockModel {
     private int id;
 
     @NotNull
-    private String name;
+    private StockCategory category;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -32,8 +32,8 @@ public class StockModel {
     public StockModel() {
     }
 
-    public StockModel(String name, UserModel user) {
-        this.name = name;
+    public StockModel(StockCategory category, UserModel user) {
+        this.category = category;
         this.user = user;
     }
 }

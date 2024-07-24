@@ -1,6 +1,6 @@
 package br.com.ifs.edu.guarda_sementes.dtos.stocks;
 
-import br.com.ifs.edu.guarda_sementes.dtos.user.ResponseUserDTO;
+import br.com.ifs.edu.guarda_sementes.enums.StockCategory;
 import br.com.ifs.edu.guarda_sementes.models.StockModel;
 import lombok.Data;
 
@@ -8,13 +8,13 @@ import lombok.Data;
 public class ResponseStockDTO {
 
     private int id;
-    private String name;
+    private StockCategory category;
 
     public ResponseStockDTO() {
     }
 
     public ResponseStockDTO(StockModel stockModel) {
         this.id = stockModel.getId();
-        this.name = stockModel.getName();
+        this.category = stockModel.getCategory();
     }
 }

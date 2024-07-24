@@ -2,6 +2,7 @@ package br.com.ifs.edu.guarda_sementes.services;
 
 import br.com.ifs.edu.guarda_sementes.dtos.stocks.CreateStockDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.stocks.ResponseStockDTO;
+import br.com.ifs.edu.guarda_sementes.enums.StockCategory;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordAlreadyExistsException;
 import br.com.ifs.edu.guarda_sementes.exceptions.RecordNotFoundException;
 import br.com.ifs.edu.guarda_sementes.models.StockModel;
@@ -29,7 +30,7 @@ public class StockService {
 
     public ResponseStockDTO create(CreateStockDTO createStockDTO) {
 
-        var oldStock = this.stockRepository.findByName(createStockDTO.getName());
+        var oldStock = this.stockRepository.findByCategory(createStockDTO.getCategory());
 
         var oldUser = this.userRepository.findById(createStockDTO.getUserId())
                 .orElseThrow(() -> new RecordNotFoundException("User not found."));
@@ -38,7 +39,7 @@ public class StockService {
             throw new RecordAlreadyExistsException("Stock already exists.");
         }
 
-        StockModel stock = new StockModel(createStockDTO.getName(), oldUser);
+        StockModel stock = new StockModel(createStockDTO.getCategory(), oldUser);
 
         return new ResponseStockDTO(this.stockRepository.save(stock));
     }
