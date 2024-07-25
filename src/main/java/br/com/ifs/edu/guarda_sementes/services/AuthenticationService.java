@@ -6,6 +6,7 @@ import br.com.ifs.edu.guarda_sementes.dtos.authentication.ResponseLoginDTO;
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,10 +22,14 @@ public class AuthenticationService {
 
     public ResponseLoginDTO login (AuthenticationDTO authenticationDTO) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.email(), authenticationDTO.password());
-        var authentication = this.authenticationManager.authenticate(usernamePassword);
-        var token = tokenService.generateToken((UserModel) authentication.getPrincipal());
 
-        return new ResponseLoginDTO(token);
+        try {
+            var authentication = this.authenticationManager.authenticate(usernamePassword);
+            var token = tokenService.generateToken((UserModel) authentication.getPrincipal());
+            return new ResponseLoginDTO(token);
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("Username or password is incorrect.");
+        }
     }
 
 }

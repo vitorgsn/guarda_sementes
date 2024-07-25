@@ -31,15 +31,18 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if(token != null) {
 
-            var email = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByEmail(email);
+            try {
+                var email = tokenService.validateToken(token);
+                UserDetails user = userRepository.findByEmail(email);
 
-            if(user == null) {
-                throw new JWTVerificationException("Token invalid.");
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token is invalid.");
+                return;
             }
-
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
