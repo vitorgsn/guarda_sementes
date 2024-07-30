@@ -20,8 +20,6 @@ public class ResponseUserDTO {
     private UserRole role;
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
-    private ResponseAddressDTO address;
-    private List<ResponseContactDTO> contacts;
 
     public ResponseUserDTO(UserModel userModel) {
 
@@ -31,18 +29,6 @@ public class ResponseUserDTO {
         this.role = userModel.getRole();
         this.createdAt = userModel.getCreatedAt();
         this.updateAt = userModel.getUpdateAt();
-
-        if (userModel.getAddress() == null) {
-            this.address = null;
-        } else {
-            this.address = new ResponseAddressDTO(userModel.getAddress());
-        }
-
-        if (userModel.getContacts() == null) {
-            this.contacts = null;
-        } else {
-            this.contacts = userModel.getContacts().stream().map(ResponseContactDTO::new).collect(Collectors.toList());
-        }
     }
 
 }

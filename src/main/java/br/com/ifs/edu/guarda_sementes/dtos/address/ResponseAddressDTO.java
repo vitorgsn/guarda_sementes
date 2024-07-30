@@ -4,6 +4,8 @@ import br.com.ifs.edu.guarda_sementes.dtos.city.ResponseCityDTO;
 import br.com.ifs.edu.guarda_sementes.models.AddressModel;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class ResponseAddressDTO {
 
@@ -13,6 +15,8 @@ public class ResponseAddressDTO {
     private String number;
     private String reference;
     private ResponseCityDTO city;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
     public ResponseAddressDTO(AddressModel addressModel) {
         this.id = addressModel.getId();
@@ -21,6 +25,8 @@ public class ResponseAddressDTO {
         this.number = addressModel.getNumber();
         this.reference = addressModel.getReference();
         this.city = new ResponseCityDTO(addressModel.getCity());
+        this.createdAt = addressModel.getCreatedAt();
+        this.updateAt = addressModel.getUpdateAt();
     }
 
 }

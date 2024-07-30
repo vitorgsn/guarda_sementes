@@ -1,4 +1,4 @@
-package br.com.ifs.edu.guarda_sementes.dtos.Seeds;
+package br.com.ifs.edu.guarda_sementes.dtos.seeds;
 
 import lombok.Data;
 

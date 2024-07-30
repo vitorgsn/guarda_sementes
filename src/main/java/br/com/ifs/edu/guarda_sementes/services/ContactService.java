@@ -1,6 +1,7 @@
 package br.com.ifs.edu.guarda_sementes.services;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -25,6 +26,14 @@ public class ContactService {
 
     public List<ResponseContactDTO> list() {
         return this.contactRepository.findAll().stream().map(ResponseContactDTO::new).collect(Collectors.toList());
+    }
+
+    public List<ResponseContactDTO> findByUserId(UUID userId) {
+
+        var oldUser = this.userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("User not found"));
+
+        var contacts = this.contactRepository.findByUserId(userId);
+        return contacts.stream().map(ResponseContactDTO::new).collect(Collectors.toList());
     }
 
     public ResponseContactDTO create(CreateContactDTO contactDTO) {

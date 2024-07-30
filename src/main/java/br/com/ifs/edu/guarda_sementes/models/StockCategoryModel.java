@@ -1,7 +1,6 @@
 package br.com.ifs.edu.guarda_sementes.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import br.com.ifs.edu.guarda_sementes.dtos.stock_categories.CreateStockCategoryDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -9,22 +8,21 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-@Entity(name = "cities")
-public class CityModel {
+@Entity(name = "stock_categories")
+public class StockCategoryModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "state_id")
-    @JsonBackReference
-    private StateModel state;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StockModel> stocks;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -34,12 +32,9 @@ public class CityModel {
     @Column(name = "updated_at")
     private LocalDateTime updateAt;
 
-    public CityModel() {
-    }
+    public StockCategoryModel() {}
 
-    public CityModel(String name, StateModel stateModel) {
+    public StockCategoryModel(String name) {
         this.name = name;
-        this.state = stateModel;
     }
-
 }

@@ -2,6 +2,7 @@ package br.com.ifs.edu.guarda_sementes.services;
 
 import java.util.UUID;
 
+import br.com.ifs.edu.guarda_sementes.dtos.address.ResponseAddressDTO;
 import org.springframework.stereotype.Service;
 
 import br.com.ifs.edu.guarda_sementes.dtos.address.CreateAddressDTO;
@@ -25,14 +26,17 @@ public class AddressService {
         this.userRepository = userRepository;
     }
 
-    public AddressModel findByUserId(UUID userId) {
+    public ResponseAddressDTO findByUserId(UUID userId) {
 
-        var oldAddress = this.addressRepository.findByUserId(userId);
+        var oldUser = this.userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("User not found."));
+
+        var oldAddress = addressRepository.findByUserId(userId);
+
         if (oldAddress == null) {
-            throw new RecordNotFoundException("The user does not have a registered address.");
+            throw new RecordNotFoundException("The user does not have registered addresses.");
         }
 
-        return oldAddress;
+        return new ResponseAddressDTO(oldAddress);
     }
 
     public AddressModel create(CreateAddressDTO addressDTO) {

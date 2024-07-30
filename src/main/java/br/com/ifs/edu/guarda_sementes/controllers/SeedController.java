@@ -1,7 +1,7 @@
 package br.com.ifs.edu.guarda_sementes.controllers;
 
-import br.com.ifs.edu.guarda_sementes.dtos.Seeds.CreateSeedDTO;
-import br.com.ifs.edu.guarda_sementes.dtos.Seeds.ResponseSeedDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.seeds.CreateSeedDTO;
+import br.com.ifs.edu.guarda_sementes.dtos.seeds.ResponseSeedDTO;
 import br.com.ifs.edu.guarda_sementes.services.SeedService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

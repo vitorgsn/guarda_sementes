@@ -1,21 +1,17 @@
 package br.com.ifs.edu.guarda_sementes.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.ifs.edu.guarda_sementes.dtos.contact.CreateContactDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.contact.ResponseContactDTO;
 import br.com.ifs.edu.guarda_sementes.services.ContactService;
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Validated
 @RestController
@@ -32,6 +28,12 @@ public class ContactController {
     @ResponseStatus(code = HttpStatus.OK)
     public List<ResponseContactDTO> list() {
         return this.contactService.list();
+    }
+
+    @GetMapping("/user/{userId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<ResponseContactDTO> findByUserId(@PathVariable @NotNull UUID userId ) {
+        return this.contactService.findByUserId(userId);
     }
 
     @PostMapping("/")

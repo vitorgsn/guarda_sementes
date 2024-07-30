@@ -32,7 +32,7 @@ public class AddressController {
     @GetMapping("/user/{userId}")
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseAddressDTO findByUserId(@PathVariable @NotNull UUID userId) {
-        return new ResponseAddressDTO(this.addressService.findByUserId(userId));
+        return this.addressService.findByUserId(userId);
     }
 
     @PostMapping("/")
