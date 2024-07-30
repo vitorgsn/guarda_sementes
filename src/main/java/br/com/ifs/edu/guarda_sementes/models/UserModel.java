@@ -64,15 +64,13 @@ public class UserModel implements UserDetails {
     @JsonManagedReference
     private List<StockModel> stocks;
 
-    /*
-    @OneToMany(mappedBy = "userSender", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "senderUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<TrocaModel> trocasSender;
+    private List<ExchangeModel> exchangeSender;
 
-    @OneToMany(mappedBy = "userReceiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "receiverUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<TrocaModel> trocasReceiver;
-    */
+    private List<ExchangeModel> exchangeReceiver;
 
     @NotNull
     private UserRole role;

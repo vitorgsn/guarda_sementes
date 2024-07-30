@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity(name = "seeds")
@@ -36,6 +37,9 @@ public class SeedModel {
     @JoinColumn(name = "stock_id")
     @JsonBackReference
     private StockModel stock;
+
+    @OneToMany(mappedBy = "seed", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ExchangeModel> exchanges;
 
     public SeedModel() {}
 
