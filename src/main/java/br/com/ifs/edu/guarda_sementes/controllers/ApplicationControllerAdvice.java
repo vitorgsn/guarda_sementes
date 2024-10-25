@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,6 +34,10 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(JWTVerificationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleJWTVerificationException(JWTVerificationException ex) {return ex.getMessage();}
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleBadCredentialsException(BadCredentialsException ex) {return ex.getMessage();}
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

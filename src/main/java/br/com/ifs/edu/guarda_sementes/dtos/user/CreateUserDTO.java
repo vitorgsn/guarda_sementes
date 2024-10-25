@@ -1,25 +1,26 @@
 package br.com.ifs.edu.guarda_sementes.dtos.user;
 
-import br.com.ifs.edu.guarda_sementes.enums.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class CreateUserDTO {
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
-    private UserRole role;
 
     public CreateUserDTO() {
 
     }
 
-    public CreateUserDTO(String name, String email, String password, UserRole role) {
-        this.name = name;
+    public CreateUserDTO(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
 }

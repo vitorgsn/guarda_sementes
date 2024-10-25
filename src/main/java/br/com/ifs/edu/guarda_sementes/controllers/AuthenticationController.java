@@ -6,7 +6,6 @@ import br.com.ifs.edu.guarda_sementes.dtos.user.CreateUserDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.user.ResponseUserDTO;
 import br.com.ifs.edu.guarda_sementes.services.AuthenticationService;
 import br.com.ifs.edu.guarda_sementes.services.UserService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +25,13 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseUserDTO register(@RequestBody @Valid CreateUserDTO userDTO) {
+    public ResponseUserDTO register(@RequestBody @Validated CreateUserDTO userDTO) {
         return new ResponseUserDTO(this.userService.create(userDTO));
     }
 
     @PostMapping("/login")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseLoginDTO login(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
+    public ResponseLoginDTO login(@RequestBody @Validated AuthenticationDTO authenticationDTO) {
         return this.authenticationService.login(authenticationDTO);
     }
 }

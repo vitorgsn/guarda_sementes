@@ -1,6 +1,5 @@
 package br.com.ifs.edu.guarda_sementes.models;
 
-import br.com.ifs.edu.guarda_sementes.dtos.stock_categories.CreateStockCategoryDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

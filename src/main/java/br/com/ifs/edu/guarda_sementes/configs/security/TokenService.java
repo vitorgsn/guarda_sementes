@@ -1,51 +1,45 @@
 package br.com.ifs.edu.guarda_sementes.configs.security;
 
+import br.com.ifs.edu.guarda_sementes.dtos.authentication.GeneratedToken;
 import br.com.ifs.edu.guarda_sementes.models.UserModel;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.util.Optional;
 
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret}")
-    private String secret;
+    private final JwtEncoder jwtEncoder;
 
-    public String generateToken(UserModel userModel) {
+    public TokenService(JwtEncoder jwtEncoder) {
+        this.jwtEncoder = jwtEncoder;
+    }
+
+    public GeneratedToken generateToken(Optional<UserModel> user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.create()
-                    .withIssuer("guarda_sementes")
-                    .withSubject(userModel.getEmail())
-                    .withExpiresAt(generateExpirationDate())
-                    .sign(algorithm);
+            var now = Instant.now();
+            var expiresIn = 300L;
+
+            if (user.isEmpty()) {
+                throw new RuntimeException("Error while generating token");
+            }
+
+            var claims = JwtClaimsSet.builder()
+                    .issuer("guardasementes")
+                    .subject(user.get().getId().toString())
+                    .issuedAt(now)
+                    .expiresAt(now.plusSeconds(expiresIn))
+                    .build();
+
+            return new GeneratedToken(jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue(), expiresIn);
 
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Error while generating token", exception);
         }
-    }
-
-    public String validateToken (String token) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-            return JWT.require(algorithm)
-                    .withIssuer("guarda_sementes")
-                    .build()
-                    .verify(token)
-                    .getSubject();
-        } catch (JWTVerificationException exception) {
-            return "";
-        }
-    }
-
-    private Instant generateExpirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
