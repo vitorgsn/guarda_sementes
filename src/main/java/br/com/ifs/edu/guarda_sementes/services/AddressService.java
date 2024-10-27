@@ -3,6 +3,8 @@ package br.com.ifs.edu.guarda_sementes.services;
 import java.util.UUID;
 
 import br.com.ifs.edu.guarda_sementes.dtos.address.ResponseAddressDTO;
+import br.com.ifs.edu.guarda_sementes.exceptions.RecordAlreadyExistsException;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import br.com.ifs.edu.guarda_sementes.dtos.address.CreateAddressDTO;
@@ -26,11 +28,13 @@ public class AddressService {
         this.userRepository = userRepository;
     }
 
-    public ResponseAddressDTO findByUserId(UUID userId) {
+    public ResponseAddressDTO listAddressUser(JwtAuthenticationToken token) {
 
-        var oldUser = this.userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("User not found."));
+        var userAuthenticated = UUID.fromString(token.getName());
 
-        var oldAddress = addressRepository.findByUserId(userId);
+        var oldUser = this.userRepository.findById(userAuthenticated).orElseThrow(() -> new RecordNotFoundException("User not found."));
+
+        var oldAddress = addressRepository.findByUserId(userAuthenticated);
 
         if (oldAddress == null) {
             throw new RecordNotFoundException("The user does not have registered addresses.");
@@ -39,12 +43,20 @@ public class AddressService {
         return new ResponseAddressDTO(oldAddress);
     }
 
-    public AddressModel create(CreateAddressDTO addressDTO) {
+    public AddressModel create(CreateAddressDTO addressDTO, JwtAuthenticationToken token) {
+
+        var userAuthenticated = UUID.fromString(token.getName());
+
+        var oldAddress = addressRepository.findByUserId(userAuthenticated);
+
+        if (oldAddress != null) {
+            throw new RecordAlreadyExistsException("The address already exists.");
+        }
 
         var oldCity = this.cityRepository.findById(addressDTO.getCityId())
                 .orElseThrow(() -> new RecordNotFoundException("City not found."));
 
-        var oldUser = this.userRepository.findById(addressDTO.getUserId())
+        var oldUser = this.userRepository.findById(userAuthenticated)
                 .orElseThrow(() -> new RecordNotFoundException("User not found."));
 
         AddressModel address = new AddressModel(addressDTO.getDistrict(), addressDTO.getStreet(),

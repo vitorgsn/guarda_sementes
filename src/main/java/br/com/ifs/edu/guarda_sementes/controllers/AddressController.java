@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,16 +30,16 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseAddressDTO findByUserId(@PathVariable @NotNull UUID userId) {
-        return this.addressService.findByUserId(userId);
+    public ResponseAddressDTO listAddressUser(JwtAuthenticationToken token) {
+        return this.addressService.listAddressUser(token);
     }
 
     @PostMapping("/")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseAddressDTO create(@RequestBody @Valid CreateAddressDTO addressDTO) {
-        return new ResponseAddressDTO(this.addressService.create(addressDTO));
+    public ResponseAddressDTO create(@RequestBody @Valid CreateAddressDTO addressDTO, JwtAuthenticationToken token) {
+        return new ResponseAddressDTO(this.addressService.create(addressDTO, token));
     }
 
 }

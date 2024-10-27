@@ -12,19 +12,17 @@ public class CreateAddressDTO {
     private String number;
     private String reference;
     private int cityId;
-    private UUID userId;
 
     public CreateAddressDTO() {
 
     }
 
-    public CreateAddressDTO(String district, String street, String number, String reference, int cityId, UUID userId) {
+    public CreateAddressDTO(String district, String street, String number, String reference, int cityId) {
         this.district = district;
         this.street = street;
         this.number = number;
         this.reference = reference;
         this.cityId = cityId;
-        this.userId = userId;
     }
 
 }
