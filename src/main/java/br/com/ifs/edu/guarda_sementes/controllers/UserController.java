@@ -4,6 +4,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +33,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @Validated
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
+@Tag(name = "Users", description = "Operações relacionadas a usuários")
 public class UserController {
 
     private final UserService userService;
@@ -44,7 +51,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseUserDTO findById(@PathVariable @NotNull UUID id) {
+    public ResponseUserDTO findById(@PathVariable @NotNull @Valid UUID id) {
         return new ResponseUserDTO(this.userService.findById(id));
     }
 

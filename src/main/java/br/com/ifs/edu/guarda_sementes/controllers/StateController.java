@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Validated
 @RestController
-@RequestMapping("/api/states")
+@RequestMapping("/states")
+@Tag(name = "States", description = "Operações relacionadas aos estados")
 public class StateController {
 
     private final StateService stateService;

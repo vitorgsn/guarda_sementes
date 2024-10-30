@@ -1,5 +1,6 @@
 package br.com.ifs.edu.guarda_sementes.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/instructions")
+@RequestMapping("/instructions")
+@Tag(name = "Instructions", description = "Operações relacionadas as mensagens de instrunções de trocas")
 public class InstructionController {
 
     private final InstructionService instructionService;

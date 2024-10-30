@@ -2,6 +2,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +22,8 @@ import jakarta.validation.constraints.NotNull;
 
 @Validated
 @RestController
-@RequestMapping("/api/addresses")
+@RequestMapping("/addresses")
+@Tag(name = "Addresses", description = "Operações relacionadas aos endereços dos usuários")
 public class AddressController {
 
     private final AddressService addressService;

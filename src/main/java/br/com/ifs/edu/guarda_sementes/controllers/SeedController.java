@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 import br.com.ifs.edu.guarda_sementes.dtos.seeds.CreateSeedDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.seeds.ResponseSeedDTO;
 import br.com.ifs.edu.guarda_sementes.services.SeedService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/api/seeds")
+@RequestMapping("/seeds")
+@Tag(name = "Seeds", description = "Operações relacionadas as sementes dos usuários")
 public class SeedController {
 
     private final SeedService seedService;

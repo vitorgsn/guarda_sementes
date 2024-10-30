@@ -3,6 +3,7 @@ package br.com.ifs.edu.guarda_sementes.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +16,8 @@ import jakarta.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping("/api/contacts")
+@RequestMapping("/contacts")
+@Tag(name = "Contacts", description = "Operações relacionadas aos contatos dos usuários")
 public class ContactController {
 
     private final ContactService contactService;

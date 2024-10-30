@@ -6,13 +6,16 @@ import br.com.ifs.edu.guarda_sementes.dtos.user.CreateUserDTO;
 import br.com.ifs.edu.guarda_sementes.dtos.user.ResponseUserDTO;
 import br.com.ifs.edu.guarda_sementes.services.AuthenticationService;
 import br.com.ifs.edu.guarda_sementes.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Validated
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
+@Tag(name = "Auth", description = "Operações de autenticação e registro de usuários")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
